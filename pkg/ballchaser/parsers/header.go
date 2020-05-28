@@ -1,8 +1,8 @@
 package parsers
 
 import (
-	"ball-chaser/internal/bitreader"
-	"ball-chaser/pkg/ballchaser/model"
+	"github.com/luispmenezes/ball-chaser/internal/bitreader"
+	"github.com/luispmenezes/ball-chaser/pkg/ballchaser/model"
 )
 
 func ParseHeader(reader *bitreader.Reader) model.Header {

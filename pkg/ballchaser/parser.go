@@ -1,9 +1,9 @@
 package ballchaser
 
 import (
-	"ball-chaser/internal/bitreader"
-	"ball-chaser/pkg/ballchaser/model"
-	"ball-chaser/pkg/ballchaser/parsers"
+	"github.com/luispmenezes/ball-chaser/internal/bitreader"
+	"github.com/luispmenezes/ball-chaser/pkg/ballchaser/model"
+	"github.com/luispmenezes/ball-chaser/pkg/ballchaser/parsers"
 	"io"
 )
 

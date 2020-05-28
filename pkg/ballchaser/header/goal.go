@@ -1,4 +1,4 @@
-package model
+package header
 
 type Goal struct {
 	Frame  uint

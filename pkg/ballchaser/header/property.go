@@ -1,4 +1,4 @@
-package model
+package header
 
 import (
 	"github.com/pkg/errors"

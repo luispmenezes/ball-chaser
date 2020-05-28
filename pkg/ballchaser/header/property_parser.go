@@ -1,15 +1,14 @@
-package parsers
+package header
 
 import (
 	"fmt"
 	"github.com/luispmenezes/ball-chaser/internal/bitreader"
-	"github.com/luispmenezes/ball-chaser/pkg/ballchaser/model"
 	"github.com/pkg/errors"
 	"log"
 )
 
-func parseProperties(reader *bitreader.Reader) map[string]model.Property {
-	propertyMap := make(map[string]model.Property)
+func parseProperties(reader *bitreader.Reader) map[string]Property {
+	propertyMap := make(map[string]Property)
 
 	for {
 		prop, err := parseSingleProp(reader)
@@ -28,8 +27,8 @@ func parseProperties(reader *bitreader.Reader) map[string]model.Property {
 	return propertyMap
 }
 
-func parseSingleProp(reader *bitreader.Reader) (model.Property, error) {
-	var prop model.Property
+func parseSingleProp(reader *bitreader.Reader) (Property, error) {
+	var prop Property
 
 	prop.Name = reader.ReadString(0)
 
@@ -39,11 +38,11 @@ func parseSingleProp(reader *bitreader.Reader) (model.Property, error) {
 
 	prop.Type = reader.ReadString(0)
 
-	prop.Length = reader.ReadInt(32)
-	reader.ReadInt(32)
+	prop.Length = reader.ReadInt32()
+	reader.ReadInt32()
 
 	if prop.Type == "IntProperty" {
-		prop.Value = reader.ReadInt(32)
+		prop.Value = reader.ReadInt32()
 	} else if prop.Type == "StrProperty" || prop.Type == "NameProperty" {
 		prop.Value = reader.ReadString(0)
 	} else if prop.Type == "FloatProperty" {
@@ -55,14 +54,14 @@ func parseSingleProp(reader *bitreader.Reader) (model.Property, error) {
 	} else if prop.Type == "QWordProperty" {
 		prop.Value = reader.ReadInt(64)
 	} else if prop.Type == "ArrayProperty" {
-		var array []map[string]model.Property
-		arrayLength := reader.ReadInt(32)
+		var array []map[string]Property
+		arrayLength := reader.ReadInt32()
 		for i := 0; i < int(arrayLength); i++ {
-			arrayElement := make(map[string]model.Property)
+			arrayElement := make(map[string]Property)
 			for {
 				arrayElementProp, err := parseSingleProp(reader)
 				if err != nil {
-					return model.Property{}, errors.Wrap(err, fmt.Sprintf("failed parsing array property: %s", prop.Name))
+					return Property{}, errors.Wrap(err, fmt.Sprintf("failed parsing array property: %s", prop.Name))
 				}
 				if arrayElementProp.Name == "None" {
 					break

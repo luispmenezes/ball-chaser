@@ -25,6 +25,10 @@ func (r *Reader) ReadFloat() float32 {
 	return math.Float32frombits(uint32(r.ReadInt(32)))
 }
 
+func (r *Reader) ReadInt32() uint {
+	return r.ReadInt(32)
+}
+
 func (r *Reader) ReadUInt32Max(maxValue uint) uint {
 	maxBits := math.Floor(math.Log10(float64(maxValue))/math.Log10(2)) + 1
 
@@ -35,14 +39,6 @@ func (r *Reader) ReadUInt32Max(maxValue uint) uint {
 	}
 
 	return value
-}
-
-func newBitReader(underlying io.Reader, buffer *[]byte) *Reader {
-	br := new(Reader)
-	br.buffer = buffer
-	br.OpenWithBuffer(underlying, *buffer)
-
-	return br
 }
 
 func NewLargeBitReader(underlying io.Reader) *Reader {

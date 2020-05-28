@@ -1,4 +1,4 @@
-package model
+package header
 
 type Highlight struct {
 	Frame uint
